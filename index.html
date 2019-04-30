@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+    
+        body {
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            min-height: 100vh;
+        }
+
+        .row {
+            min-height: 100vh;
+        }
+
+        .animate {
+            animation: anim .4s forwards;
+        }
+
+        @keyframes anim {
+            from {
+                transform: translate(-100%);
+            }
+
+            to {
+                transform: translate(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="background: lightcoral;"></div>
+        <div class="row" style="background: lightblue;"></div>
+        <div class="row" data-anim="animate" style="background: lightgreen; transform: translate(-100%);"></div>
+        <div class="row" style="background: lightyellow;"></div>
+        <div class="row" data-anim="animate" style="background: lightsalmon; transform: translate(-100%);"></div>
+    </div>
+    
+    <script>
+        const makeScrollAnimations = (attribute) => {
+            const htmlElementsToAnimate = document.querySelectorAll(`[${attribute}]`)
+
+            const observer = new IntersectionObserver (entries => {
+                entries.forEach (entry => {
+                    if (entry.isIntersecting) {
+                        console.log('anim')
+                        entry.target.classList.add (
+                            entry.target.getAttribute(attribute)
+                        )
+                    }
+                })
+            })
+
+            htmlElementsToAnimate.forEach (e => observer.observe(e))
+
+            return observer
+        }
+
+        makeScrollAnimations ('data-anim')
+    </script>
+</body>
+</html>
